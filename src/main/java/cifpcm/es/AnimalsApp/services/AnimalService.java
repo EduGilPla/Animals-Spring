@@ -38,7 +38,12 @@ public class AnimalService {
         }
 
     }
-    public boolean modifyAnimal(){
+    public boolean updateAnimal(Animal toUpdate){
+        Animal existingAnimal = findAnimal(toUpdate.getId());
+        if (existingAnimal == null)
+            return false;
+        int indexOf = animalList.indexOf(existingAnimal);
+        animalList.set(indexOf,toUpdate);
         return true;
     }
     public Animal findAnimal(int id){

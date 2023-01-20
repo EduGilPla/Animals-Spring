@@ -8,10 +8,7 @@ import cifpcm.es.AnimalsApp.services.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -82,6 +79,25 @@ public class AnimalsController {
             ViewData.addAttribute("animalList",service.getAnimalList());
             return "/animals/index";
         }
+        ViewData.addAttribute("animalToUpdate",animalToUpdate);
         return "/animals/update";
+    }
+    @PostMapping("/animals/update/{id}")
+    public String update(@Valid @ModelAttribute("newAnimal") Animal modifiedAnimal, BindingResult bindingResult, Model Viewdata, @PathVariable String id){
+        try {
+            if(bindingResult.hasErrors()){
+                Viewdata.addAttribute("animalToUpdate",modifiedAnimal);
+                return "/animals/update";
+            }
+            if(!service.updateAnimal(modifiedAnimal)){
+                Viewdata.addAttribute("error","No se ha podido modificar el objeto por un fallo del servidor");
+                return "redirect:/";
+            }
+            return "redirect:/";
+        }
+        catch(Exception exception) {
+            Viewdata.addAttribute("exception",exception);
+            return "/animals/index";
+        }
     }
 }
