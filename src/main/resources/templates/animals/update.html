@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo animal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+    <a class="navbar-brand" href="/">Animales Spring</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Lista</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/create">Añadir</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<main class="container mt-4">
+    <form action="#"
+          th:action="@{/update}"
+          th:object="${newAnimal}"
+          method="post">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" class="form-control" th:field="*{name}" minlength="2" maxlength="20" th:classappend="${#fields.hasErrors('name')} ? 'border border-danger' : '' ">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="species">Especie</label>
+            <input type="text" id="species" class="form-control" th:field="*{species}" th:classappend="${#fields.hasErrors('species')} ? 'border border-danger' : '' ">
+            <span th:if="${#fields.hasErrors('species')}" th:errors="*{species}" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="lifeExp">Esperanza de vida (Años)</label>
+            <input type="number" id="lifeExp" class="form-control" th:field="*{lifeExpectancy}" min="1" th:classappend="${#fields.hasErrors('lifeExpectancy')} ? 'border border-danger' : '' ">
+            <span th:if="${#fields.hasErrors('lifeExpectancy')}" th:errors="*{lifeExpectancy}" class="text-danger"></span>
+        </div>
+        <div class="form-group form-check">
+            <div>
+                <input type="radio" id="extinct" name="extinct" value ="true" class="form-check-input" th:field="*{extinct}">
+                <label for="extinct" class="form-check-label">Extinto</label>
+            </div>
+            <div>
+                <input type="radio" id="notExtinct" name="extinct" value ="false" class="form-check-input" th:field="*{extinct}">
+                <label for="notExtinct" class="form-check-label">No extinto</label>
+            </div>
+        </div>
+        <input type="submit" value="Añadir" class="btn btn-primary">
+    </form>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+</body>
+</html>

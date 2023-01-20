@@ -1,20 +1,19 @@
 package cifpcm.es.AnimalsApp.models;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class Animal {
     private int id;
     @NotBlank(message = "El nombre es obligatorio")
     @NotNull
-    @Size(min = 2,max=20)
+    @Size(min = 2,max=20,message = "El tamaño debe estar entre 2 y 20 caracteres")
     private String name;
     @NotBlank(message = "La especie es obligatoria")
     @NotNull
-    @Size(min = 2,max=20)
+    @Size(min = 2,max=20,message = "El tamaño debe estar entre 2 y 20 caracteres")
     private String species;
     @NotNull(message = "Hay que especificar una esperanza de vida")
+    @Min(value = 1,message = "El valor debe ser al menos de 1 año")
     private int lifeExpectancy;
     private boolean extinct;
 
