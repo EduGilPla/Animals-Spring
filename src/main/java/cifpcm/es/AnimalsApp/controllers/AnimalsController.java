@@ -10,25 +10,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 public class AnimalsController {
     @Autowired
     private AnimalService service;
     @GetMapping("/")
-    public String listar(Model ViewData){
+    public String List(Model ViewData){
         ViewData.addAttribute("animalList",service.getAnimalList());
         return "/animals/index";
     }
     @GetMapping("/animals/create")
-    public String create(Model ViewData){
+    public String Create(Model ViewData){
         Animal newAnimal = new Animal();
         ViewData.addAttribute("newAnimal", newAnimal);
         return "/animals/create";
     }
     @PostMapping("/animals/create")
-    public String create(@Valid @ModelAttribute("newAnimal") Animal newAnimal, BindingResult bindingResult, Model Viewdata){
+    public String Create(@Valid @ModelAttribute("newAnimal") Animal newAnimal, BindingResult bindingResult, Model Viewdata){
         try {
             if(bindingResult.hasErrors()){
                 return "/animals/create";
@@ -42,7 +40,7 @@ public class AnimalsController {
         }
     }
     @GetMapping("/animals/details/{id}")
-    public String details(@PathVariable String id, Model ViewData){
+    public String Details(@PathVariable String id, Model ViewData){
 
         Animal foundAnimal = service.findAnimal(Integer.parseInt(id));
 
@@ -55,7 +53,7 @@ public class AnimalsController {
         return "/animals/details";
     }
     @GetMapping("/animals/delete/{id}")
-    public String delete(@PathVariable String id, Model ViewData){
+    public String Delete(@PathVariable String id, Model ViewData){
 
         Animal animalToDelete = service.findAnimal(Integer.parseInt(id));
 
@@ -72,7 +70,7 @@ public class AnimalsController {
         return "redirect:/";
     }
     @GetMapping("/animals/update/{id}")
-    public String update(@PathVariable String id, Model ViewData){
+    public String Update(@PathVariable String id, Model ViewData){
         Animal animalToUpdate = service.findAnimal(Integer.parseInt(id));
         if (animalToUpdate == null){
             ViewData.addAttribute("error","El animal con id " + id + " no existe");
@@ -83,7 +81,7 @@ public class AnimalsController {
         return "/animals/update";
     }
     @PostMapping("/animals/update/{id}")
-    public String update(@Valid @ModelAttribute("newAnimal") Animal modifiedAnimal, BindingResult bindingResult, Model Viewdata, @PathVariable String id){
+    public String Update(@Valid @ModelAttribute("animalToUpdate") Animal modifiedAnimal, BindingResult bindingResult, Model Viewdata){
         try {
             if(bindingResult.hasErrors()){
                 Viewdata.addAttribute("animalToUpdate",modifiedAnimal);

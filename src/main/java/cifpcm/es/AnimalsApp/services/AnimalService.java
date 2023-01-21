@@ -36,7 +36,6 @@ public class AnimalService {
         catch (Exception exception){
             return false;
         }
-
     }
     public boolean updateAnimal(Animal toUpdate){
         Animal existingAnimal = findAnimal(toUpdate.getId());
