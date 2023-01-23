@@ -19,31 +19,39 @@ public class AnimalService {
     public List<Animal> getAnimalList() {
         return animalList;
     }
-    public void addAnimal(Animal newAnimal) throws Exception{
+    public boolean addAnimal(Animal newAnimal){
+        boolean CREATED_CORRECTLY = true;
+        boolean OPERATION_FAILED = false;
         try {
             newAnimal.setId(currentId++);
             this.animalList.add(newAnimal);
+            return CREATED_CORRECTLY;
         }
         catch (Exception exception){
-            throw exception;
+            return OPERATION_FAILED;
         }
     }
     public boolean deleteAnimal(Animal toDelete){
+        boolean COMPLETED_CORRECTLY = true;
+        boolean OPERATION_FAILED = false;
         try {
             animalList.remove(toDelete);
-            return true;
+            return COMPLETED_CORRECTLY;
         }
         catch (Exception exception){
-            return false;
+            return OPERATION_FAILED;
         }
     }
     public boolean updateAnimal(Animal toUpdate){
+        boolean UPDATED_CORRECTLY = true;
+        boolean ANIMAL_NOT_FOUND = false;
         Animal existingAnimal = findAnimal(toUpdate.getId());
-        if (existingAnimal == null)
-            return false;
-        int indexOf = animalList.indexOf(existingAnimal);
-        animalList.set(indexOf,toUpdate);
-        return true;
+        if (existingAnimal != null){
+            int indexOf = animalList.indexOf(existingAnimal);
+            animalList.set(indexOf,toUpdate);
+            return UPDATED_CORRECTLY;
+        }
+        return ANIMAL_NOT_FOUND;
     }
     public Animal findAnimal(int id){
         return animalList.stream()

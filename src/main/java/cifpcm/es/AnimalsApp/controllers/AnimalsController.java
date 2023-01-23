@@ -27,17 +27,14 @@ public class AnimalsController {
     }
     @PostMapping("/animals/create")
     public String Create(@Valid @ModelAttribute("newAnimal") Animal newAnimal, BindingResult bindingResult, Model Viewdata){
-        try {
-            if(bindingResult.hasErrors()){
-                return "/animals/create";
-            }
-            service.addAnimal(newAnimal);
+        if(bindingResult.hasErrors()){
+            return "/animals/create";
+        }
+        if(service.addAnimal(newAnimal)){
             return "redirect:/";
         }
-        catch(Exception exception) {
-            Viewdata.addAttribute("exception",exception);
-            return "/animals/index";
-        }
+        Viewdata.addAttribute("error","No se ha podido crear el animal, fallo de servidor");
+        return "/animals/index";
     }
     @GetMapping("/animals/details/{id}")
     public String Details(@PathVariable String id, Model ViewData){
