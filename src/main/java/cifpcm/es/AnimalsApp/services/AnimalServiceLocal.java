@@ -1,13 +1,15 @@
 package cifpcm.es.AnimalsApp.services;
 
+import cifpcm.es.AnimalsApp.interfaces.AnimalService;
 import cifpcm.es.AnimalsApp.models.Animal;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class AnimalService {
+public class AnimalServiceLocal implements AnimalService {
     private static int currentId = 1;
     private List<Animal> animalList = new ArrayList<>() {
         {
@@ -31,7 +33,7 @@ public class AnimalService {
             return OPERATION_FAILED;
         }
     }
-    public boolean deleteAnimal(Animal toDelete){
+    public boolean deleteAnimal(Optional<Animal> toDelete){
         boolean COMPLETED_CORRECTLY = true;
         boolean OPERATION_FAILED = false;
         try {
@@ -45,18 +47,18 @@ public class AnimalService {
     public boolean updateAnimal(Animal toUpdate){
         boolean UPDATED_CORRECTLY = true;
         boolean ANIMAL_NOT_FOUND = false;
-        Animal existingAnimal = findAnimal(toUpdate.getId());
-        if (existingAnimal != null){
+        Optional<Animal> existingAnimal = findAnimal(toUpdate.getId());
+        if (existingAnimal.isPresent()){
             int indexOf = animalList.indexOf(existingAnimal);
             animalList.set(indexOf,toUpdate);
             return UPDATED_CORRECTLY;
         }
         return ANIMAL_NOT_FOUND;
     }
-    public Animal findAnimal(int id){
-        return animalList.stream()
+    public Optional<Animal> findAnimal(int id){
+        return Optional.ofNullable(animalList.stream()
                 .filter(animal -> animal.getId() == id)
                 .findAny()
-                .orElse(null);
+                .orElse(null));
     }
 }

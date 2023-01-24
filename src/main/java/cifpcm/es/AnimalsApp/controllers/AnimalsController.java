@@ -1,14 +1,16 @@
 package cifpcm.es.AnimalsApp.controllers;
 
 
+import cifpcm.es.AnimalsApp.interfaces.AnimalService;
 import cifpcm.es.AnimalsApp.models.Animal;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
-import cifpcm.es.AnimalsApp.services.AnimalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 public class AnimalsController {
@@ -39,22 +41,22 @@ public class AnimalsController {
     @GetMapping("/animals/details/{id}")
     public String Details(@PathVariable String id, Model ViewData){
 
-        Animal foundAnimal = service.findAnimal(Integer.parseInt(id));
+        Optional<Animal> foundAnimal = service.findAnimal(Integer.parseInt(id));
 
-        if (foundAnimal == null){
+        if (foundAnimal.isEmpty()){
             ViewData.addAttribute("error","El animal con id " + id + " no existe");
             ViewData.addAttribute("animalList",service.getAnimalList());
             return "/animals/index";
         }
-        ViewData.addAttribute("foundAnimal" , foundAnimal);
+        ViewData.addAttribute("foundAnimal" , foundAnimal.get());
         return "/animals/details";
     }
     @GetMapping("/animals/delete/{id}")
     public String Delete(@PathVariable String id, Model ViewData){
 
-        Animal animalToDelete = service.findAnimal(Integer.parseInt(id));
+        Optional<Animal> animalToDelete = service.findAnimal(Integer.parseInt(id));
 
-        if (animalToDelete == null){
+        if (animalToDelete.isEmpty()){
             ViewData.addAttribute("error","El animal con id " + id + " no existe");
             ViewData.addAttribute("animalList",service.getAnimalList());
             return "/animals/index";
@@ -68,13 +70,13 @@ public class AnimalsController {
     }
     @GetMapping("/animals/update/{id}")
     public String Update(@PathVariable String id, Model ViewData){
-        Animal animalToUpdate = service.findAnimal(Integer.parseInt(id));
-        if (animalToUpdate == null){
+        Optional<Animal> animalToUpdate = service.findAnimal(Integer.parseInt(id));
+        if (animalToUpdate.isEmpty()){
             ViewData.addAttribute("error","El animal con id " + id + " no existe");
             ViewData.addAttribute("animalList",service.getAnimalList());
             return "/animals/index";
         }
-        ViewData.addAttribute("animalToUpdate",animalToUpdate);
+        ViewData.addAttribute("animalToUpdate",animalToUpdate.get());
         return "/animals/update";
     }
     @PostMapping("/animals/update/{id}")

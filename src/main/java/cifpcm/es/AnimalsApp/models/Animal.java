@@ -1,8 +1,13 @@
 package cifpcm.es.AnimalsApp.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
-
+@Entity
 public class Animal {
+    @Id
+    @GeneratedValue
     private int id;
     @NotBlank(message = "El nombre es obligatorio")
     @NotNull
