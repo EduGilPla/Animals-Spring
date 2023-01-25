@@ -13,6 +13,8 @@ import java.util.Optional;
 @Primary
 @Service
 public class AnimalServiceDB implements AnimalService {
+    final boolean OPERATION_SUCCESS = true;
+    final boolean OPERATION_FAILED = false;
     @Autowired
     AnimalRepository repository;
     @Override
@@ -24,33 +26,35 @@ public class AnimalServiceDB implements AnimalService {
     public boolean addAnimal(Animal newAnimal) {
         try {
             repository.save(newAnimal);
-            return true;
+            return OPERATION_SUCCESS;
         }
         catch (Exception exception){
-            return false;
+            return OPERATION_FAILED;
         }
     }
     @Override
     public boolean deleteAnimal(Optional<Animal> toDelete) {
         try {
-            repository.delete(toDelete.get());
-            return true;
+            if(toDelete.isPresent()){
+                repository.delete(toDelete.get());
+                return OPERATION_SUCCESS;
+            }
+            return OPERATION_FAILED;
         }
         catch (Exception exception){
-            return false;
+            return OPERATION_FAILED;
         }
     }
     @Override
     public boolean updateAnimal(Animal toUpdate) {
         try {
             repository.save(toUpdate);
-            return true;
+            return OPERATION_SUCCESS;
         }
         catch (Exception exception){
-            return false;
+            return OPERATION_FAILED;
         }
     }
-
     @Override
     public Optional<Animal> findAnimal(int id) {
         return repository.findById(id);
