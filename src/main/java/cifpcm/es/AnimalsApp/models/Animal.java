@@ -3,6 +3,7 @@ package cifpcm.es.AnimalsApp.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.*;
 @Entity
 public class Animal {
@@ -21,6 +22,8 @@ public class Animal {
     @Min(value = 1,message = "El valor debe ser al menos de 1 año")
     private int lifeExpectancy;
     private boolean extinct;
+    @ManyToOne
+    private AnimalGroup group;
 
     public Animal(){}
     public Animal(int id, String newName, String newSpecies, int newLifeExp, boolean isExtinct) {

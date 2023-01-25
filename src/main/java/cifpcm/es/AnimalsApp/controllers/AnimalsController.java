@@ -17,6 +17,11 @@ public class AnimalsController {
     @Autowired
     private AnimalService service;
     @GetMapping("/")
+    public String Start(Model ViewData){
+        ViewData.addAttribute("animalList",service.getAnimalList());
+        return "/common/welcome";
+    }
+    @GetMapping("/animals")
     public String List(Model ViewData){
         ViewData.addAttribute("animalList",service.getAnimalList());
         return "/animals/index";
