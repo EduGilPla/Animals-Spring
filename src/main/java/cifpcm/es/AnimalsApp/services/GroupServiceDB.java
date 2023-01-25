@@ -2,6 +2,8 @@ package cifpcm.es.AnimalsApp.services;
 
 import cifpcm.es.AnimalsApp.interfaces.GroupService;
 import cifpcm.es.AnimalsApp.models.AnimalGroup;
+import cifpcm.es.AnimalsApp.repositories.GroupRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +14,21 @@ import java.util.Optional;
 public class GroupServiceDB implements GroupService {
     final boolean OPERATION_SUCCESS = true;
     final boolean OPERATION_FAILED = false;
-    private List<AnimalGroup> groups;
+    @Autowired
+    GroupRepository repository;
 
     @Override
-    public List<AnimalGroup> getGroupList(){return groups;}
+    public List<AnimalGroup> getGroupList(){return repository.findAll();}
 
     @Override
     public boolean addGroup(AnimalGroup newGroup) {
-        return false;
+        try {
+            repository.save(newGroup);
+            return OPERATION_SUCCESS;
+        }
+        catch (Exception exception){
+            return OPERATION_FAILED;
+        }
     }
 
     @Override

@@ -38,7 +38,7 @@ public class AnimalsController {
             return "/animals/create";
         }
         if(service.addAnimal(newAnimal)){
-            return "redirect:/";
+            return "redirect:/animals";
         }
         Viewdata.addAttribute("error","No se ha podido crear el animal, fallo de servidor");
         return "/animals/index";

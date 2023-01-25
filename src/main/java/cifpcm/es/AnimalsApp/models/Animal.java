@@ -33,7 +33,6 @@ public class Animal {
         this.lifeExpectancy = newLifeExp;
         this.extinct = isExtinct;
     }
-
     public int getId() {
         return id;
     }
