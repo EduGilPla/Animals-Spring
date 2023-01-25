@@ -68,4 +68,11 @@ public class Animal {
         this.extinct = extinct;
     }
 
+    public AnimalGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(AnimalGroup group) {
+        this.group = group;
+    }
 }

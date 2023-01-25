@@ -18,6 +18,7 @@
             <th scope="col">Especie</th>
             <th scope="col">Esperanza de vida</th>
             <th scope="col">Extinto</th>
+            <th scope="col">Grupo</th>
             <th scope="col">Acciones</th>
             </thead>
             <tbody>
@@ -27,6 +28,7 @@
                 <td th:text="${animal.species}"></td>
                 <td th:text="${animal.lifeExpectancy}"></td>
                 <td th:text="${animal.extinct} ? 'Si':'No'"></td>
+                <td th:text="${animal.group.name}"></td>
                 <td>
                     <a th:href="@{|/animals/details/${animal.id}|}" class="btn btn-success">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

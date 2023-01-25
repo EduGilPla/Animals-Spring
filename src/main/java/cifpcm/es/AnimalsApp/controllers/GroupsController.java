@@ -17,11 +17,11 @@ import java.util.Optional;
 @Controller
 public class GroupsController {
     @Autowired
-    private GroupService service;
+    private GroupService groupService;
 
     @GetMapping("/groups")
     public String List(Model Viewdata){
-        Viewdata.addAttribute("groupList",service.getGroupList());
+        Viewdata.addAttribute("groupList",groupService.getGroupList());
         return "/groups/index";
     }
     @GetMapping("/groups/create")
@@ -34,7 +34,7 @@ public class GroupsController {
     public String Create(@Valid @ModelAttribute("newGroup") AnimalGroup newGroup,BindingResult bindingResult, Model Viewdata){
         if(bindingResult.hasErrors())
             return "groups/create";
-        if(service.addGroup(newGroup))
+        if(groupService.addGroup(newGroup))
             return "redirect:/groups";
         Viewdata.addAttribute("error","No se ha podido crear el animal, fallo de servidor");
         return "/groups/index";
