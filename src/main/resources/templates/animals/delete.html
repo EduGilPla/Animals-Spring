@@ -4,32 +4,38 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detalles</title>
+  <title>Borrar animal</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
 <nav th:insert="layout/navbar.html"></nav>
 <div class="container">
   <br />
-  <h1 th:text = "'Detalles de ' + ${foundAnimal.name}"></h1>
+  <h1 th:text = "'Eliminar a ' + ${animal.name}"></h1>
   <br />
   <dl class="row">
     <dt class = "col-sm-2">Nombre</dt>
-    <dd class = "col-sm-10" th:text="${foundAnimal.name}"></dd>
+    <dd class = "col-sm-10" th:text="${animal.name}"></dd>
 
     <dt class = "col-sm-2">Especie</dt>
-    <dd class = "col-sm-10" th:text="${foundAnimal.species}"></dd>
+    <dd class = "col-sm-10" th:text="${animal.species}"></dd>
 
     <dt class = "col-sm-2">Esperanza de vida</dt>
-    <dd class = "col-sm-10" th:text="${foundAnimal.lifeExpectancy}"></dd>
+    <dd class = "col-sm-10" th:text="${animal.lifeExpectancy}"></dd>
 
     <dt class = "col-sm-2">Extinto</dt>
-    <dd class = "col-sm-10" th:text="${foundAnimal.extinct} ? 'Si' : 'No'"></dd>
+    <dd class = "col-sm-10" th:text="${animal.extinct} ? 'Si' : 'No'"></dd>
 
     <dt class = "col-sm-2">Grupo</dt>
-    <dd class = "col-sm-10" th:text="${foundAnimal.group.name}"></dd>
+    <dd class = "col-sm-10" th:text="${animal.group.name}"></dd>
   </dl>
-  <a class="btn btn-primary" href="/animals">Volver</a>
+  <form action="#"
+        th:action="@{|/animals/delete/${animal.id}|}"
+        th:object="${animal}"
+        method="post">
+    <input type="submit" class="btn btn-danger" value="Eliminar">
+    <a class="btn btn-primary" href="/animals">Volver</a>
+  </form>
 </div>
 </body>
 </html>

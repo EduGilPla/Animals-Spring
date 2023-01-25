@@ -19,7 +19,6 @@ public class GroupServiceDB implements GroupService {
 
     @Override
     public List<AnimalGroup> getGroupList(){return repository.findAll();}
-
     @Override
     public boolean addGroup(AnimalGroup newGroup) {
         try {
@@ -30,20 +29,36 @@ public class GroupServiceDB implements GroupService {
             return OPERATION_FAILED;
         }
     }
-
     @Override
-    public boolean deleteGroup(Optional<AnimalGroup> groupToDelete) {
-        return false;
+    public boolean deleteGroup(AnimalGroup groupToDelete) {
+        try {
+            repository.delete(groupToDelete);
+            return OPERATION_SUCCESS;
+        }
+        catch (Exception exception){
+            return OPERATION_FAILED;
+        }
     }
 
     @Override
     public boolean updateGroup(AnimalGroup groupToUpdate) {
-        return false;
+        try {
+            Optional<AnimalGroup> groupToChange = repository.findById(groupToUpdate.getId());
+            if(groupToChange.isPresent()){
+                AnimalGroup updatedGroup = groupToChange.get();
+                updatedGroup.setName(groupToUpdate.getName());
+                repository.save(updatedGroup);
+                return OPERATION_SUCCESS;
+            }
+            return OPERATION_FAILED;
+        }
+        catch (Exception exception){
+            return OPERATION_FAILED;
+        }
     }
-
     @Override
     public Optional<AnimalGroup> findGroup(int id) {
-        return Optional.empty();
+        return repository.findById(id);
     }
 
 }

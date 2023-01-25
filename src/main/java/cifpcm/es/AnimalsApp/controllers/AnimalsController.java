@@ -72,12 +72,17 @@ public class AnimalsController {
             ViewData.addAttribute("animalList",animalService.getAnimalList());
             return "/animals/index";
         }
+        ViewData.addAttribute("animal",animalToDelete.get());
+        return "/animals/delete";
+    }
+    @PostMapping("/animals/delete/{id}")
+    public String Delete(@ModelAttribute("animal") Animal animalToDelete, Model ViewData){
         if(!animalService.deleteAnimal(animalToDelete)){
-            ViewData.addAttribute("error","No se ha podido borrar el elemento");
-            ViewData.addAttribute("animalList",animalService.getAnimalList());
+            ViewData.addAttribute("error","No se ha podido eliminar el animal");
+            ViewData.addAttribute("groupList",groupService.getGroupList());
             return "/animals/index";
         }
-        return "redirect:/";
+        return "redirect:/animals";
     }
     @GetMapping("/animals/update/{id}")
     public String Update(@PathVariable String id, Model ViewData){
@@ -91,21 +96,15 @@ public class AnimalsController {
         return "/animals/update";
     }
     @PostMapping("/animals/update/{id}")
-    public String Update(@Valid @ModelAttribute("animalToUpdate") Animal modifiedAnimal, BindingResult bindingResult, Model Viewdata){
-        try {
-            if(bindingResult.hasErrors()){
-                Viewdata.addAttribute("animalToUpdate",modifiedAnimal);
-                return "/animals/update";
-            }
-            if(!animalService.updateAnimal(modifiedAnimal)){
-                Viewdata.addAttribute("error","No se ha podido modificar el objeto por un fallo del servidor");
-                return "redirect:/";
-            }
-            return "redirect:/";
+    public String Update(@Valid @ModelAttribute("animalToUpdate") Animal modifiedAnimal, BindingResult bindingResult, Model ViewData){
+        if(bindingResult.hasErrors()){
+            ViewData.addAttribute("animalToUpdate",modifiedAnimal);
+            return "/animals/update";
         }
-        catch(Exception exception) {
-            Viewdata.addAttribute("exception",exception);
-            return "/animals/index";
+        if(!animalService.updateAnimal(modifiedAnimal)){
+            ViewData.addAttribute("error","No se ha podido modificar el objeto por un fallo del servidor");
+            return "redirect:/animals";
         }
+        return "redirect:/animals";
     }
 }

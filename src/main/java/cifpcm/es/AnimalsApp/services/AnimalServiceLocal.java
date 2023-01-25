@@ -33,7 +33,7 @@ public class AnimalServiceLocal implements AnimalService {
             return OPERATION_FAILED;
         }
     }
-    public boolean deleteAnimal(Optional<Animal> toDelete){
+    public boolean deleteAnimal(Animal toDelete){
         boolean COMPLETED_CORRECTLY = true;
         boolean OPERATION_FAILED = false;
         try {
