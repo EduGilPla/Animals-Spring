@@ -14,12 +14,13 @@
         th:action="@{|/groups/update/${groupToUpdate.id}|}"
         th:object="${groupToUpdate}"
         method="post">
-    <div class="form-group">
+    <div class="form-group mb-2">
       <label for="name">Nombre</label>
       <input type="text" id="name" class="form-control" th:field="*{name}" minlength="2" maxlength="20" th:classappend="${#fields.hasErrors('name')} ? 'border border-danger' : '' ">
       <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
     </div>
     <input type="submit" value="Modificar" class="btn btn-primary">
+    <a class="btn btn-secondary" href="/groups">Volver</a>
   </form>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

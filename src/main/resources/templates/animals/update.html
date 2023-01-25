@@ -39,7 +39,16 @@
                 <label for="notExtinct" class="form-check-label">No extinto</label>
             </div>
         </div>
+        <div class="form-group">
+            <select th:field="*{group}" class="form-select mb-2">
+                <option th:each="group: ${groupList}"
+                        th:value="${group.id}"
+                        th:text="${group.name}">
+                </option>
+            </select>
+        </div>
         <input type="submit" value="Modificar" class="btn btn-primary">
+        <a class="btn btn-secondary" href="/animals">Volver</a>
     </form>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

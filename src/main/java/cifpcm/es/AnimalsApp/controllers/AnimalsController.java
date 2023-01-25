@@ -93,6 +93,7 @@ public class AnimalsController {
             return "/animals/index";
         }
         ViewData.addAttribute("animalToUpdate",animalToUpdate.get());
+        ViewData.addAttribute("groupList",groupService.getGroupList());
         return "/animals/update";
     }
     @PostMapping("/animals/update/{id}")
