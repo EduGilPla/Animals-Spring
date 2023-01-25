@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AnimalService {
-    public List<Animal> getAnimalList();
-    public boolean addAnimal(Animal newAnimal);
-    public boolean deleteAnimal(Optional<Animal> toDelete);
-    public boolean updateAnimal(Animal toUpdate);
-    public Optional<Animal> findAnimal(int id);
+    List<Animal> getAnimalList();
+    boolean addAnimal(Animal newAnimal);
+    boolean deleteAnimal(Optional<Animal> toDelete);
+    boolean updateAnimal(Animal toUpdate);
+    Optional<Animal> findAnimal(int id);
 }
