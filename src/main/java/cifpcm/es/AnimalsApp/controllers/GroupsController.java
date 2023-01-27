@@ -67,7 +67,7 @@ public class GroupsController {
     }
     @PostMapping("/groups/delete/{id}")
     public String Delete(@ModelAttribute("group") AnimalGroup groupToDelete, Model ViewData){
-        if(!groupService.deleteGroup(groupToDelete)){
+        if(!groupService.deleteGroup(groupToDelete.getId())){
             ViewData.addAttribute("error","No se ha podido eliminar el grupo");
             ViewData.addAttribute("groupList",groupService.getGroupList());
             return "/groups/index";

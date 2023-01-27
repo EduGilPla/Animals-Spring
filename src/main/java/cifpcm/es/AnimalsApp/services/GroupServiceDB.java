@@ -30,22 +30,21 @@ public class GroupServiceDB implements GroupService {
         }
     }
     @Override
-    public boolean deleteGroup(AnimalGroup groupToDelete) {
+    public boolean deleteGroup(int id) {
         try {
-            repository.delete(groupToDelete);
+            repository.deleteById(id);
             return OPERATION_SUCCESS;
         }
         catch (Exception exception){
             return OPERATION_FAILED;
         }
     }
-
     @Override
     public boolean updateGroup(AnimalGroup groupToUpdate) {
         try {
-            Optional<AnimalGroup> groupToChange = repository.findById(groupToUpdate.getId());
-            if(groupToChange.isPresent()){
-                AnimalGroup updatedGroup = groupToChange.get();
+            Optional<AnimalGroup> groupQuery = repository.findById(groupToUpdate.getId());
+            if(groupQuery.isPresent()){
+                AnimalGroup updatedGroup = groupQuery.get();
                 updatedGroup.setName(groupToUpdate.getName());
                 repository.save(updatedGroup);
                 return OPERATION_SUCCESS;

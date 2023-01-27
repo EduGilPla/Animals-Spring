@@ -21,6 +21,7 @@
   <ul class="mb-3">
     <li th:each="animal : ${group.animals}" th:text="${animal.name}"></li>
   </ul>
+  <h6 class="text-danger mb-2">¡Se eliminarán todos los animales del grupo!</h6>
   <form action="#"
         th:action="@{|/groups/delete/${group.id}|}"
         th:object="${group}"

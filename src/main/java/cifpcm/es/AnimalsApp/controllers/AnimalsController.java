@@ -77,7 +77,7 @@ public class AnimalsController {
     }
     @PostMapping("/animals/delete/{id}")
     public String Delete(@ModelAttribute("animal") Animal animalToDelete, Model ViewData){
-        if(!animalService.deleteAnimal(animalToDelete)){
+        if(!animalService.deleteAnimal(animalToDelete.getId())){
             ViewData.addAttribute("error","No se ha podido eliminar el animal");
             ViewData.addAttribute("groupList",groupService.getGroupList());
             return "/animals/index";

@@ -33,9 +33,9 @@ public class AnimalServiceDB implements AnimalService {
         }
     }
     @Override
-    public boolean deleteAnimal(Animal toDelete) {
+    public boolean deleteAnimal(int id) {
         try {
-            repository.delete(toDelete);
+            repository.deleteById(id);
             return OPERATION_SUCCESS;
         }
         catch (Exception exception){

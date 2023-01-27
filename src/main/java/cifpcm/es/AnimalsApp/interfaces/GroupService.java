@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface GroupService {
     List<AnimalGroup> getGroupList();
     boolean addGroup(AnimalGroup newGroup);
-    boolean deleteGroup(AnimalGroup groupToDelete);
+    boolean deleteGroup(int id);
     boolean updateGroup(AnimalGroup groupToUpdate);
     Optional<AnimalGroup> findGroup(int id);
 }
