@@ -16,16 +16,16 @@ public class AnimalServiceDB implements AnimalService {
     final boolean OPERATION_SUCCESS = true;
     final boolean OPERATION_FAILED = false;
     @Autowired
-    AnimalRepository repository;
+    AnimalRepository animalRepository;
     @Override
     public List<Animal> getAnimalList() {
-        return repository.findAll();
+        return animalRepository.findAll();
     }
 
     @Override
     public boolean addAnimal(Animal newAnimal) {
         try {
-            repository.save(newAnimal);
+            animalRepository.save(newAnimal);
             return OPERATION_SUCCESS;
         }
         catch (Exception exception){
@@ -35,7 +35,7 @@ public class AnimalServiceDB implements AnimalService {
     @Override
     public boolean deleteAnimal(int id) {
         try {
-            repository.deleteById(id);
+            animalRepository.deleteById(id);
             return OPERATION_SUCCESS;
         }
         catch (Exception exception){
@@ -45,7 +45,7 @@ public class AnimalServiceDB implements AnimalService {
     @Override
     public boolean updateAnimal(Animal toUpdate) {
         try {
-            repository.save(toUpdate);
+            animalRepository.save(toUpdate);
             return OPERATION_SUCCESS;
         }
         catch (Exception exception){
@@ -54,6 +54,6 @@ public class AnimalServiceDB implements AnimalService {
     }
     @Override
     public Optional<Animal> findAnimal(int id) {
-        return repository.findById(id);
+        return animalRepository.findById(id);
     }
 }

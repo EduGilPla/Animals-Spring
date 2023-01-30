@@ -15,14 +15,13 @@ public class GroupServiceDB implements GroupService {
     final boolean OPERATION_SUCCESS = true;
     final boolean OPERATION_FAILED = false;
     @Autowired
-    GroupRepository repository;
-
+    GroupRepository groupRepository;
     @Override
-    public List<AnimalGroup> getGroupList(){return repository.findAll();}
+    public List<AnimalGroup> getGroupList(){return groupRepository.findAll();}
     @Override
     public boolean addGroup(AnimalGroup newGroup) {
         try {
-            repository.save(newGroup);
+            groupRepository.save(newGroup);
             return OPERATION_SUCCESS;
         }
         catch (Exception exception){
@@ -32,7 +31,7 @@ public class GroupServiceDB implements GroupService {
     @Override
     public boolean deleteGroup(int id) {
         try {
-            repository.deleteById(id);
+            groupRepository.deleteById(id);
             return OPERATION_SUCCESS;
         }
         catch (Exception exception){
@@ -42,11 +41,11 @@ public class GroupServiceDB implements GroupService {
     @Override
     public boolean updateGroup(AnimalGroup groupToUpdate) {
         try {
-            Optional<AnimalGroup> groupQuery = repository.findById(groupToUpdate.getId());
+            Optional<AnimalGroup> groupQuery = groupRepository.findById(groupToUpdate.getId());
             if(groupQuery.isPresent()){
                 AnimalGroup updatedGroup = groupQuery.get();
                 updatedGroup.setName(groupToUpdate.getName());
-                repository.save(updatedGroup);
+                groupRepository.save(updatedGroup);
                 return OPERATION_SUCCESS;
             }
             return OPERATION_FAILED;
@@ -57,7 +56,7 @@ public class GroupServiceDB implements GroupService {
     }
     @Override
     public Optional<AnimalGroup> findGroup(int id) {
-        return repository.findById(id);
+        return groupRepository.findById(id);
     }
 
 }
