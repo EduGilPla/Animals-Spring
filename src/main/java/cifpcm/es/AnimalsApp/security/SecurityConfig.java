@@ -1,0 +1,40 @@
+package cifpcm.es.AnimalsApp.security;
+
+import cifpcm.es.AnimalsApp.services.UserServiceDB;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecurityConfig {
+  @Autowired
+  private UserServiceDB userService;
+  @Bean
+  public SecurityFilterChain mainConfig(HttpSecurity http) throws RuntimeException{
+    try {
+      http.authorizeHttpRequests((authz) -> authz
+            .requestMatchers("/", "/authentication/login","/authentication/register").permitAll()
+            .anyRequest().authenticated()
+      );
+      http.formLogin()
+            .loginPage("/authentication/login")
+            .loginProcessingUrl("/authentication/login")
+            .defaultSuccessUrl("/")
+            .permitAll();
+      http.logout()
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/");
+      http.userDetailsService(userService);
+      return http.build();
+    }
+    catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+}

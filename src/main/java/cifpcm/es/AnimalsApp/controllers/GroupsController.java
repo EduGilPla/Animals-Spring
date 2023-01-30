@@ -1,9 +1,6 @@
 package cifpcm.es.AnimalsApp.controllers;
 
-
-import cifpcm.es.AnimalsApp.interfaces.AnimalService;
 import cifpcm.es.AnimalsApp.interfaces.GroupService;
-import cifpcm.es.AnimalsApp.models.Animal;
 import cifpcm.es.AnimalsApp.models.AnimalGroup;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;

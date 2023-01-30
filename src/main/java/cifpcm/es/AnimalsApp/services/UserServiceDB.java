@@ -21,7 +21,6 @@ public class UserServiceDB implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User foundUser = userRepository.findByEmail(username);
