@@ -16,16 +16,16 @@ public class AuthController {
   @Autowired
   private RoleService roleService;
 
-  @GetMapping("/authentication/login")
+  @GetMapping("/login")
   public String Login(){
     return "/authentication/login";
   }
-  @GetMapping("/authentication/register")
+  @GetMapping("/register")
   public String Register(Model ViewData){
-    ViewData.addAttribute("newUser", new User());
+    ViewData.addAttribute("user", new User());
     return "/authentication/register";
   }
-  @PostMapping("/authentication/register")
+  @PostMapping("/register")
   public String Register(@Valid @ModelAttribute("newUser") User newUser, BindingResult bindingResult, Model ViewData){
     if(bindingResult.hasErrors())
       return "/authentication/register";

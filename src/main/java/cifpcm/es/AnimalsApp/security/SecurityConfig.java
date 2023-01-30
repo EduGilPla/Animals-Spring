@@ -19,12 +19,12 @@ public class SecurityConfig {
   public SecurityFilterChain mainConfig(HttpSecurity http) throws RuntimeException{
     try {
       http.authorizeHttpRequests((authz) -> authz
-            .requestMatchers("/", "/authentication/login","/authentication/register").permitAll()
+            .requestMatchers("/", "/login", "/register").permitAll()
             .anyRequest().authenticated()
       );
       http.formLogin()
-            .loginPage("/authentication/login")
-            .loginProcessingUrl("/authentication/login")
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
             .defaultSuccessUrl("/")
             .permitAll();
       http.logout()

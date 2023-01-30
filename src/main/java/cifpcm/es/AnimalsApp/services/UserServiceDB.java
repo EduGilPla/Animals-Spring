@@ -39,6 +39,7 @@ public class UserServiceDB implements UserDetailsService {
         user.setSurname(userDto.getSurname());
         user.setEmail(userDto.getEmail());
         user.setPassword(encoder.encode(userDto.getPassword()));
+        userRepository.save(user);
         return true;
     }
     private boolean emailExists(String email) {
