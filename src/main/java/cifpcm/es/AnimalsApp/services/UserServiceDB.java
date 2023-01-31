@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,16 +24,20 @@ public class UserServiceDB implements UserDetailsService {
   private UserRepository userRepository;
   @Autowired
   private RoleRepository roleRepository;
-  private final BCryptPasswordEncoder Encoder = new BCryptPasswordEncoder();
+  @Autowired
+  private PasswordEncoder passwordEncoder;
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<User>User = userRepository.findByEmail(username);
-    if(User.isEmpty())
-      return null;
-    User foundUser = User.get();
-    return new org.springframework.security.core.userdetails.User(foundUser.getName(),
-        foundUser.getPassword(),
-        getAuthorities(foundUser.getRoles()));
+    try{
+      Optional<User>User = userRepository.findByEmail(username);
+      User foundUser = User.get();
+      return new org.springframework.security.core.userdetails.User(foundUser.getName(),
+          foundUser.getPassword(),
+          buildUserAuthority(foundUser.getRoles()));
+    }
+    catch (UsernameNotFoundException exception){
+      throw exception;
+    }
   }
   public boolean registerUser(User userDto){
     if(emailExists(userDto.getEmail())){
@@ -44,7 +49,7 @@ public class UserServiceDB implements UserDetailsService {
       defaultRole = new Role("ROLE_USER");
     else
       defaultRole = roleQuery.get();
-    userDto.setPassword(Encoder.encode(userDto.getPassword()));
+    userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
     userDto.setRoles(Arrays.asList(defaultRole));
     userRepository.save(userDto);
     return true;
@@ -52,11 +57,11 @@ public class UserServiceDB implements UserDetailsService {
   private boolean emailExists(String email) {
     return userRepository.findByEmail(email).isPresent();
   }
-  private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
-    List<GrantedAuthority> authorities = new ArrayList<>();
-    for (Role role: roles) {
-      authorities.add(new SimpleGrantedAuthority(role.getName()));
+  private List<GrantedAuthority> buildUserAuthority(List<Role> roles){
+    List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+    for(Role role : roles){
+      grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
     }
-    return authorities;
+    return grantedAuthorities;
   }
 }

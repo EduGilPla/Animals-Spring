@@ -11,12 +11,12 @@
 <nav th:insert="~{layout/navbar.html}"></nav>
 <main class="container">
     <form action="#"
-          th:action="@{/authenticate/login}"
+          th:action="@{/login}"
           method="post">
         <label for="email">Email</label>
-        <input type="email" class="form-control" id="email">
+        <input type="email" class="form-control" id="email" name="username">
         <label for="password">Contraseña</label>
-        <input type="text" class="form-control" id="password">
+        <input type="text" class="form-control" id="password" name="password">
         <input type="submit" value="Iniciar sesion" class="btn btn-primary">
     </form>
 </main>
