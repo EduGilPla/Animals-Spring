@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,23 +20,20 @@ import java.util.*;
 @Service
 public class UserServiceDB implements UserDetailsService {
   @Autowired
-  private UserRepository userRepository;
+  UserRepository userRepository;
   @Autowired
-  private RoleRepository roleRepository;
+  RoleRepository roleRepository;
   @Autowired
-  private PasswordEncoder passwordEncoder;
+  PasswordEncoder passwordEncoder;
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    try{
-      Optional<User>User = userRepository.findByEmail(username);
-      User foundUser = User.get();
-      return new org.springframework.security.core.userdetails.User(foundUser.getName(),
-          foundUser.getPassword(),
-          buildUserAuthority(foundUser.getRoles()));
-    }
-    catch (UsernameNotFoundException exception){
-      throw exception;
-    }
+    Optional<User>User = userRepository.findByEmail(username);
+    if(User.isEmpty())
+      throw new UsernameNotFoundException("Exception");
+    User foundUser = User.get();
+    return new org.springframework.security.core.userdetails.User(foundUser.getEmail(),
+                foundUser.getPassword(),
+                buildUserAuthority(foundUser.getRoles()));
   }
   public boolean registerUser(User userDto){
     if(emailExists(userDto.getEmail())){
@@ -54,10 +50,10 @@ public class UserServiceDB implements UserDetailsService {
     userRepository.save(userDto);
     return true;
   }
-  private boolean emailExists(String email) {
+  public boolean emailExists(String email) {
     return userRepository.findByEmail(email).isPresent();
   }
-  private List<GrantedAuthority> buildUserAuthority(List<Role> roles){
+  public List<GrantedAuthority> buildUserAuthority(List<Role> roles){
     List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
     for(Role role : roles){
       grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));

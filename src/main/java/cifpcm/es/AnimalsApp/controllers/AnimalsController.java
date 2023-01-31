@@ -6,6 +6,7 @@ import cifpcm.es.AnimalsApp.interfaces.GroupService;
 import cifpcm.es.AnimalsApp.models.Animal;
 import cifpcm.es.AnimalsApp.models.AnimalGroup;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,7 @@ public class AnimalsController {
         ViewData.addAttribute("animalList",animalService.getAnimalList());
         return "/animals/index";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/animals/create")
     public String Create(Model ViewData){
         Animal newAnimal = new Animal();
@@ -38,6 +40,7 @@ public class AnimalsController {
         ViewData.addAttribute("groupList",groupService.getGroupList());
         return "/animals/create";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/animals/create")
     public String Create(@Valid @ModelAttribute("newAnimal") Animal newAnimal, BindingResult bindingResult, Model Viewdata){
         if(bindingResult.hasErrors()){
@@ -62,6 +65,7 @@ public class AnimalsController {
         ViewData.addAttribute("foundAnimal" , foundAnimal.get());
         return "/animals/details";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/animals/delete/{id}")
     public String Delete(@PathVariable String id, Model ViewData){
 
@@ -75,6 +79,7 @@ public class AnimalsController {
         ViewData.addAttribute("animal",animalToDelete.get());
         return "/animals/delete";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/animals/delete/{id}")
     public String Delete(@ModelAttribute("animal") Animal animalToDelete, Model ViewData){
         if(!animalService.deleteAnimal(animalToDelete.getId())){
@@ -84,6 +89,7 @@ public class AnimalsController {
         }
         return "redirect:/animals";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/animals/update/{id}")
     public String Update(@PathVariable String id, Model ViewData){
         Optional<Animal> animalToUpdate = animalService.findAnimal(Integer.parseInt(id));
@@ -96,6 +102,7 @@ public class AnimalsController {
         ViewData.addAttribute("groupList",groupService.getGroupList());
         return "/animals/update";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/animals/update/{id}")
     public String Update(@Valid @ModelAttribute("animalToUpdate") Animal modifiedAnimal, BindingResult bindingResult, Model ViewData){
         if(bindingResult.hasErrors()){

@@ -1,6 +1,5 @@
 package cifpcm.es.AnimalsApp.controllers;
 
-import cifpcm.es.AnimalsApp.interfaces.RoleService;
 import cifpcm.es.AnimalsApp.models.User;
 import cifpcm.es.AnimalsApp.services.UserServiceDB;
 import jakarta.validation.Valid;
@@ -12,10 +11,7 @@ import org.springframework.ui.Model;
 @Controller
 public class AuthController {
   @Autowired
-  private UserServiceDB userService;
-  @Autowired
-  private RoleService roleService;
-
+  UserServiceDB userService;
   @GetMapping("/login")
   public String Login(){
     return "/authentication/login";

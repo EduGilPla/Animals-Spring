@@ -16,7 +16,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
   @Autowired
-  private UserServiceDB userService;
+  UserServiceDB userService;
+  @Bean
+  public static PasswordEncoder getEncoder(){return new BCryptPasswordEncoder();}
   @Bean
   public SecurityFilterChain mainConfig(HttpSecurity http) throws RuntimeException{
     try {
@@ -39,8 +41,5 @@ public class SecurityConfig {
       throw new RuntimeException(e);
     }
   }
-  @Bean
-  public PasswordEncoder getEncoder(){
-    return new BCryptPasswordEncoder();
-  }
+
 }

@@ -3,6 +3,7 @@ package cifpcm.es.AnimalsApp.controllers;
 import cifpcm.es.AnimalsApp.interfaces.GroupService;
 import cifpcm.es.AnimalsApp.models.AnimalGroup;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,14 @@ public class GroupsController {
         ViewData.addAttribute("groupList",groupService.getGroupList());
         return "/groups/index";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/groups/create")
     public String Create(Model ViewData){
         AnimalGroup newGroup = new AnimalGroup();
         ViewData.addAttribute("newGroup",newGroup);
         return "/groups/create";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/groups/create")
     public String Create(@Valid @ModelAttribute("newGroup") AnimalGroup newGroup,BindingResult bindingResult, Model ViewData){
         if(bindingResult.hasErrors())
@@ -49,6 +52,7 @@ public class GroupsController {
         ViewData.addAttribute("group",foundGroup.get());
         return "/groups/details";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/groups/delete/{id}")
     public String Delete(@PathVariable String id, Model ViewData){
 
@@ -62,6 +66,7 @@ public class GroupsController {
         ViewData.addAttribute("group",groupToDelete.get());
         return "/groups/delete";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/groups/delete/{id}")
     public String Delete(@ModelAttribute("group") AnimalGroup groupToDelete, Model ViewData){
         if(!groupService.deleteGroup(groupToDelete.getId())){
@@ -71,6 +76,7 @@ public class GroupsController {
         }
         return "redirect:/groups";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/groups/update/{id}")
     public String Update(@PathVariable String id, Model ViewData){
         Optional<AnimalGroup> groupToUpdate = groupService.findGroup(Integer.parseInt(id));
@@ -82,6 +88,7 @@ public class GroupsController {
         ViewData.addAttribute("groupToUpdate",groupToUpdate.get());
         return "/groups/update";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/groups/update/{id}")
     public String Update(@Valid @ModelAttribute("groupToUpdate") AnimalGroup modifiedGroup, BindingResult bindingResult, Model ViewData){
         if(bindingResult.hasErrors()){
